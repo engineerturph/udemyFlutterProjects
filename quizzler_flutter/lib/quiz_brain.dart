@@ -19,7 +19,16 @@ class QuizBrain {
     return _questionsC[_textNum].questionAnswer;
   }
 
-  void nextQuestion() {
-    _textNum = (_textNum + 1) % _questionsC.length;
+  bool nextQuestion() {
+    if (_textNum < _questionsC.length - 1) {
+      _textNum++;
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void resetQuestion() {
+    _textNum = 0;
   }
 }

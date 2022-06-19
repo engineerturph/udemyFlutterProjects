@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'quiz_brain.dart';
 
 QuizBrain quizBrain = new QuizBrain();
@@ -29,6 +30,38 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   List<Widget> scoreKeeper = [];
+
+  void checkAnsver(bool userAnswer) {
+    if (quizBrain.getCorrectAnswer() == userAnswer) {
+      scoreKeeper.add(Icon(Icons.check, color: Colors.green));
+    } else {
+      scoreKeeper.add(Icon(Icons.close, color: Colors.red));
+    }
+    if (!quizBrain.nextQuestion()) {
+      Alert(
+        context: context,
+        type: AlertType.error,
+        title: "NO QUESTIONS LEFT",
+        desc:
+            "There is no more questions left if you want to solve questions again restart app.",
+        buttons: [
+          DialogButton(
+            child: Text(
+              "Restart app",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: () {
+              setState(() {
+                quizBrain.resetQuestion();
+              });
+              Navigator.pop(context);
+            },
+            width: 120,
+          )
+        ],
+      ).show();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,12 +101,7 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 setState(() {
-                  if (quizBrain.getCorrectAnswer()) {
-                    scoreKeeper.add(Icon(Icons.check, color: Colors.green));
-                  } else {
-                    scoreKeeper.add(Icon(Icons.close, color: Colors.red));
-                  }
-                  quizBrain.nextQuestion();
+                  checkAnsver(true);
                 });
               },
             ),
@@ -95,12 +123,7 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 setState(() {
-                  if (!quizBrain.getCorrectAnswer()) {
-                    scoreKeeper.add(Icon(Icons.check, color: Colors.green));
-                  } else {
-                    scoreKeeper.add(Icon(Icons.close, color: Colors.red));
-                  }
-                  quizBrain.nextQuestion();
+                  checkAnsver(false);
                 });
               },
             ),
@@ -114,10 +137,14 @@ class _QuizPageState extends State<QuizPage> {
   }
 }
 
-/*
-question1: 'You can lead a cow down stairs but not up stairs.', false,
-question2: 'Approximately one quarter of human bones are in the feet.', true,
-question3: 'A slug\'s blood is green.', true,
-*/
-
 //Android studioda ileri geri gidebilion normal version controll gibi herseyi kaydedior
+//@override inheritledigin classi degistirebilmeni sagliyor.
+//super ile ustteki classtaki seyleri calistirabiliriz.
+//super ile ustteki classin constructorunu da calistirabiliriz.
+//ayni functiona biseyler eklemek
+/*
+* function(){
+*   super.function();
+*   //kendi yazacagin function
+*
+* */
