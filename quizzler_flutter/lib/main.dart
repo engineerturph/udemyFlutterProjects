@@ -53,6 +53,7 @@ class _QuizPageState extends State<QuizPage> {
             onPressed: () {
               setState(() {
                 quizBrain.resetQuestion();
+                scoreKeeper.clear();
               });
               Navigator.pop(context);
             },
