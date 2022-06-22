@@ -5,6 +5,10 @@ class InputPage extends StatefulWidget {
   _InputPageState createState() => _InputPageState();
 }
 
+const bottomContainerHeight = 80.0;
+const activeCardColour = Color(0xFF1D1E33);
+const secondaryCardColour = Color(0xFFEB1555);
+
 class _InputPageState extends State<InputPage> {
   @override
   Widget build(BuildContext context) {
@@ -20,20 +24,44 @@ class _InputPageState extends State<InputPage> {
             child: Row(
               children: [
                 Expanded(
-                  child: WidgetCont(Color(0xFF1D1E33)),
+                  child: WidgetCont(
+                    colour: activeCardColour,
+                  ),
                 ),
-                Expanded(child: WidgetCont(Color(0xFF1D1E33))),
+                Expanded(
+                  child: WidgetCont(
+                    colour: activeCardColour,
+                  ),
+                ),
               ],
             ),
           ),
-          Expanded(child: WidgetCont(Color(0xFF1D1E33))),
+          Expanded(
+            child: WidgetCont(
+              colour: activeCardColour,
+            ),
+          ),
           Expanded(
             child: Row(
               children: [
-                Expanded(child: WidgetCont(Color(0xFF1D1E33))),
-                Expanded(child: WidgetCont(Color(0xFF1D1E33))),
+                Expanded(
+                  child: WidgetCont(
+                    colour: activeCardColour,
+                  ),
+                ),
+                Expanded(
+                  child: WidgetCont(
+                    colour: activeCardColour,
+                  ),
+                ),
               ],
             ),
+          ),
+          Container(
+            color: secondaryCardColour,
+            margin: EdgeInsets.only(top: 10.0),
+            width: double.infinity,
+            height: bottomContainerHeight,
           ),
         ],
       ),
@@ -42,7 +70,7 @@ class _InputPageState extends State<InputPage> {
 }
 
 class WidgetCont extends StatelessWidget {
-  WidgetCont(@required this.colour);
+  WidgetCont({required this.colour});
   Color colour;
   @override
   Widget build(BuildContext context) {
