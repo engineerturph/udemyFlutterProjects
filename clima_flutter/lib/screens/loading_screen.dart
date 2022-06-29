@@ -1,7 +1,7 @@
+import 'package:clima_flutter/services/networking.dart';
 import 'package:flutter/material.dart';
 import 'package:clima_flutter/services/location.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:clima_flutter/services/networking.dart';
 
 const apiKey = '348095a05a97f48edcfb11be35556758';
 
@@ -17,28 +17,21 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   void initState() async {
     super.initState();
-    getLocation();
+    getLocationData();
   }
 
-  void getLocation() async {
+  void getLocationData() async {
     Location location = Location();
     await location.getCurLocation();
+
+    latitude = location.latitude;
+    longitude = location.longitude;
+
+    NetworkHelper networkHelper = NetworkHelper('https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey');
+
+    var weatherData = await networkHelper.getData();
   }
 
-  void getData() async {
-    http.Response response = await http.get(
-        'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid=$apiKey');
-
-    if (response.statusCode == 200) {
-      String data = response.body;
-      var decodedData = jsonDecode(data);
-      var longitude =
-          decodedData['coord']['lon']; //boyle jsonu kendinde decode edebilirsin
-
-    } else {
-      print(response.statusCode);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
