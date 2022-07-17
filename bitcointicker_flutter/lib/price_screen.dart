@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bitcointicker_flutter/coin_data.dart';
 import 'package:flutter/cupertino.dart';
-import 'dart:io' show Platform;
 import 'constants.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -15,6 +14,7 @@ class _PriceScreenState extends State<PriceScreen> {
   String? selectedCurrency = 'USD';
   int rateValue = 0;
   CoinData coinData = CoinData();
+  List<Widget> paddings = [];
 
   DropdownButton<String> getDropdownButton() {
     List<DropdownMenuItem<String>> dropdownItems = [];
@@ -31,7 +31,7 @@ class _PriceScreenState extends State<PriceScreen> {
         setState(() {
           selectedCurrency = value;
         });
-        getData(currency: selectedCurrency);
+        getData(currency2: selectedCurrency);
       },
     );
   }
@@ -48,20 +48,60 @@ class _PriceScreenState extends State<PriceScreen> {
         setState(() {
           selectedCurrency = pickerItems[selectedIndex].data;
         });
-        getData(currency: pickerItems[selectedIndex].data);
+
+        getPaddings();
       },
       children: pickerItems,
     );
   }
 
-  void getData({String? currency = 'USD'}) async {
+  Future<int> getData(
+      {String? currency2 = 'USD', String? currency1 = 'BTC'}) async {
     var coinData = await http.get(Uri.parse(
-        'https://rest.coinapi.io/v1/exchangerate/BTC/$currency?apikey=A011ADD2-E24F-471D-82FA-238DE572AABA'));
+        'https://rest.coinapi.io/v1/exchangerate/$currency1/$currency2?apikey=$kApiKey'));
     var coinDataDecoded = json.decode(coinData.body);
     int result = coinDataDecoded['rate'].round();
     setState(() {
       rateValue = result;
     });
+    return 1;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getPaddings();
+    super.initState();
+  }
+
+  void getPaddings() async {
+    paddings = [];
+    for (String currency in coinData.cryptoList) {
+      await getData(currency1: currency, currency2: selectedCurrency);
+      paddings.add(
+        Padding(
+          padding: EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
+          child: Card(
+            color: Colors.lightBlueAccent,
+            elevation: 5.0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
+              child: Text(
+                '1 $currency = $rateValue $selectedCurrency',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -74,26 +114,8 @@ class _PriceScreenState extends State<PriceScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Padding(
-            padding: EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
-            child: Card(
-              color: Colors.lightBlueAccent,
-              elevation: 5.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
-                child: Text(
-                  '1 BTC = $rateValue $selectedCurrency',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
+          Column(
+            children: paddings,
           ),
           Container(
             height: 150.0,
