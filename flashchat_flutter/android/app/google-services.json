@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "817557431356",
+    "project_id": "flash-chat-f2280",
+    "storage_bucket": "flash-chat-f2280.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:817557431356:android:877725d54b73f31d890f39",
+        "android_client_info": {
+          "package_name": "com.turabiyildirim.flashchat_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "817557431356-q51c2i382spmhg0hv1vje5os6ps3qufr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZeobiUsKSeyKlnSpHY6OvTvPeb_iCoU0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "817557431356-q51c2i382spmhg0hv1vje5os6ps3qufr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
