@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class AddTaskScreen extends StatelessWidget {
-  const AddTaskScreen({Key? key}) : super(key: key);
-
+  AddTaskScreen({this.callBackFunction});
+  void Function(String value)? callBackFunction;
+  String? innerText;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,13 +29,18 @@ class AddTaskScreen extends StatelessWidget {
                     fontWeight: FontWeight.w300),
               ),
               TextField(
+                onChanged: (value) {
+                  innerText = value;
+                },
                 autofocus: true,
                 textAlign: TextAlign.center,
               ),
               Padding(
                 padding: EdgeInsets.only(top: 15.0),
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    callBackFunction!(innerText!);
+                  },
                   child: Container(
                     decoration: BoxDecoration(color: Colors.lightBlueAccent),
                     width: double.infinity,
