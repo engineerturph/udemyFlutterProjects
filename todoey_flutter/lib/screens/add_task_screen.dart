@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todoey_flutter/models/task.dart';
+import '../main.dart';
 
 class AddTaskScreen extends StatelessWidget {
-  AddTaskScreen({this.callBackFunction});
-  void Function(String value)? callBackFunction;
   String? innerText;
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,8 @@ class AddTaskScreen extends StatelessWidget {
                 padding: EdgeInsets.only(top: 15.0),
                 child: TextButton(
                   onPressed: () {
-                    callBackFunction!(innerText!);
+                    context.read<TaskModel>().addTask(Task(name: innerText));
+                    Navigator.pop(context);
                   },
                   child: Container(
                     decoration: BoxDecoration(color: Colors.lightBlueAccent),

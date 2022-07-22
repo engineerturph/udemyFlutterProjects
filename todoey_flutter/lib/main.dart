@@ -4,7 +4,19 @@ import 'package:provider/provider.dart';
 import 'models/task.dart';
 
 class TaskModel extends ChangeNotifier {
-  List<Task> tasks = [Task(name: 'xd')];
+  List<Task> _tasks = [Task(name: 'xd')];
+
+  List<Task> get tasks => _tasks;
+
+  addTask(Task task) {
+    _tasks.add(task);
+    notifyListeners();
+  }
+
+  toggleDone(int index) {
+    _tasks[index].toggleDone();
+    notifyListeners();
+  }
 }
 
 void main() {

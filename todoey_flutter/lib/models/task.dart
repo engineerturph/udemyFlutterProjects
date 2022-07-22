@@ -7,8 +7,4 @@ class Task {
   void toggleDone() {
     isDone = !isDone;
   }
-
-  void changeName(String? value) {
-    name = value;
-  }
 }

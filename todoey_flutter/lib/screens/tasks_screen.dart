@@ -27,14 +27,7 @@ class _TasksScreenState extends State<TasksScreen> {
               child: Container(
                 padding: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: AddTaskScreen(
-                  callBackFunction: (String? name) {
-                    setState(() {
-                      tasks.add(Task(name: name));
-                    });
-                    Navigator.pop(context);
-                  },
-                ),
+                child: AddTaskScreen(),
               ),
             ),
           );
@@ -71,7 +64,7 @@ class _TasksScreenState extends State<TasksScreen> {
                   ),
                 ),
                 Text(
-                  '${tasks.length} tasks',
+                  '${context.watch<TaskModel>().tasks.length} tasks',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18.0,
@@ -84,7 +77,7 @@ class _TasksScreenState extends State<TasksScreen> {
             child: Container(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.0),
-                child: TasksList(tasks),
+                child: TasksList(),
               ),
               decoration: BoxDecoration(
                   color: Colors.white,
